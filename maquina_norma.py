@@ -1,1 +1,48 @@
 
+# teste_maquina.py
+from maquina_norma import MaquinaNorma  # Importando a classe MaquinaNorma
+
+class TesteMaquinaNorma:
+    def __init__(self):
+        # Inicializa uma instância da MaquinaNorma para os testes
+        self.maquina = MaquinaNorma()
+
+    def testar_multiplicacao(self):
+        """Testa a função de multiplicação."""
+        # Inicializando os valores nos registradores A e B
+        self.maquina.registradores['A'] = 5  # Exemplo: A = 5
+        self.maquina.registradores['B'] = 3  # Exemplo: B = 3
+        self.maquina.registradores['C'] = 0  # Zera o registrador C (resultado)
+        self.maquina.registradores['D'] = 0  # Zera o registrador D (auxiliar)
+
+        print("Testando multiplicação: A = 5, B = 3")
+        print("Antes da multiplicação:", self.maquina.registradores)
+
+        # Executando a multiplicação
+        self.maquina.multiplicacao('A', 'B', 'C', 'D')  # A * B, resultado em C
+        print("Resultado da multiplicação:", self.maquina.registradores['C'])
+
+    def testar_fatorial(self):
+        """Testa a função de fatorial."""
+        # Inicializando o valor no registrador A
+        self.maquina.registradores['A'] = 5  # Exemplo: A = 5
+        self.maquina.registradores['B'] = 0  # Usado para auxiliar no cálculo
+        self.maquina.registradores['C'] = 1  # Armazena o resultado do fatorial
+        self.maquina.registradores['D'] = 0  # Auxiliar adicional
+
+        print("\nTestando fatorial: A = 5")
+        print("Antes do fatorial:", self.maquina.registradores)
+
+        # Executando o cálculo do fatorial
+        self.maquina.fatorial('A', 'B', 'C', 'D')  # Calcula o fatorial de A, resultado em C
+        print("Resultado do fatorial:", self.maquina.registradores['C'])
+
+    def rodar_teste(self):
+        """Roda todos os testes."""
+        self.testar_multiplicacao()
+        self.testar_fatorial()
+
+# Rodando os testes
+
+teste = TesteMaquinaNorma()
+teste.rodar_teste()

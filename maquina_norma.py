@@ -1,48 +1,76 @@
-
-# teste_maquina.py
-from maquina_norma import MaquinaNorma  # Importando a classe MaquinaNorma
-
-class TesteMaquinaNorma:
+class MaquinaNorma:
     def __init__(self):
-        # Inicializa uma instância da MaquinaNorma para os testes
-        self.maquina = MaquinaNorma()
+        # Inicializa os registradores de A até H com valor 0
+        self.registradores = {chr(65 + i): 0 for i in range(8)}
+        self.instrucoes = {}  # Dicionário para armazenar as instruções
+        self.linha_atual = 1  # Começa na instrução 1
 
-    def testar_multiplicacao(self):
-        """Testa a função de multiplicação."""
-        # Inicializando os valores nos registradores A e B
-        self.maquina.registradores['A'] = 5  # Exemplo: A = 5
-        self.maquina.registradores['B'] = 3  # Exemplo: B = 3
-        self.maquina.registradores['C'] = 0  # Zera o registrador C (resultado)
-        self.maquina.registradores['D'] = 0  # Zera o registrador D (auxiliar)
+    def inicializar_registradores(self):
+        """Permite ao usuário inicializar os registradores."""
+        print("Inicialize os registradores (de A a H). Deixe em branco para manter 0.")
+        for reg in self.registradores:
+            valor = input(f"Valor para {reg}: ")
+            if valor.isdigit():
+                self.registradores[reg] = int(valor)
 
-        print("Testando multiplicação: A = 5, B = 3")
-        print("Antes da multiplicação:", self.maquina.registradores)
+    def carregar_instrucoes(self, arquivo):
+        """Carrega as instruções do arquivo de entrada."""
+        with open(arquivo, 'r') as f:
+            for linha in f:
+                rotulo, comando = linha.strip().split(":")
+                rotulo = int(rotulo.strip())
+                partes = comando.split()
+                operacao = partes[0]  # Operação
+                registrador = partes[1]  # Registrador
+                destino1 = int(partes[2])  # Destino 1
+                destino2 = int(partes[3]) if len(partes) > 3 else None
+                self.instrucoes[rotulo] = (operacao, registrador, destino1, destino2)
 
-        # Executando a multiplicação
-        self.maquina.multiplicacao('A', 'B', 'C', 'D')  # A * B, resultado em C
-        print("Resultado da multiplicação:", self.maquina.registradores['C'])
+    def executar(self):
+        """Executa as instruções carregadas."""
+        while self.linha_atual in self.instrucoes:
+            operacao, registrador, destino1, destino2 = self.instrucoes[self.linha_atual]
+            print(f"Executando linha {self.linha_atual}: {operacao} {registrador} {destino1}{',' + str(destino2) if destino2 else ''}")
+            print(f"Estado antes: {self.registradores}")
 
-    def testar_fatorial(self):
-        """Testa a função de fatorial."""
-        # Inicializando o valor no registrador A
-        self.maquina.registradores['A'] = 5  # Exemplo: A = 5
-        self.maquina.registradores['B'] = 0  # Usado para auxiliar no cálculo
-        self.maquina.registradores['C'] = 1  # Armazena o resultado do fatorial
-        self.maquina.registradores['D'] = 0  # Auxiliar adicional
+            if operacao == "ADD":
+                self.registradores[registrador] += 1
+                self.linha_atual = destino1
+            elif operacao == "SUB":
+                if self.registradores[registrador] > 0:
+                    self.registradores[registrador] -= 1
+                self.linha_atual = destino1
+            elif operacao == "ZER":
+                self.linha_atual = destino1 if self.registradores[registrador] == 0 else destino2
 
-        print("\nTestando fatorial: A = 5")
-        print("Antes do fatorial:", self.maquina.registradores)
+            print(f"Estado depois: {self.registradores}")
 
-        # Executando o cálculo do fatorial
-        self.maquina.fatorial('A', 'B', 'C', 'D')  # Calcula o fatorial de A, resultado em C
-        print("Resultado do fatorial:", self.maquina.registradores['C'])
+    def multiplicacao(self, reg_a, reg_b, reg_c, reg_d):
+        """Multiplica o valor de A por B usando C e D."""
+        self.registradores[reg_c] = 0  # Resultado
+        while self.registradores[reg_b] > 0:
+            self.registradores[reg_b] -= 1
+            self.registradores[reg_d] = self.registradores[reg_a]
+            while self.registradores[reg_d] > 0:
+                self.registradores[reg_d] -= 1
+                self.registradores[reg_c] += 1
 
-    def rodar_teste(self):
-        """Roda todos os testes."""
-        self.testar_multiplicacao()
-        self.testar_fatorial()
+    def fatorial(self, reg_a, reg_b, reg_c, reg_d):
+        """Calcula o fatorial de A usando B, C e D."""
+        self.registradores[reg_c] = 1  # Resultado
+        while self.registradores[reg_a] > 0:
+            self.registradores[reg_b] = self.registradores[reg_a]
+            self.registradores[reg_a] -= 1
+            self.multiplicacao(reg_b, reg_c, reg_c, reg_d)
 
-# Rodando os testes
 
-teste = TesteMaquinaNorma()
-teste.rodar_teste()
+# Exemplo de uso:
+# 1. Inicialize os registradores.
+# 2. Execute as instruções carregadas.
+
+maquina = MaquinaNorma()
+maquina.inicializar_registradores()
+maquina.carregar_instrucoes('instrucoes.txt')  # Substitua pelo caminho do arquivo
+maquina.executar()
+
+

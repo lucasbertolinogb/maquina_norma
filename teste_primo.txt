@@ -1,0 +1,6 @@
+1: ADD B 2       ; B = 2 (primeiro divisor)
+2: SUB A 3       ; Tenta subtrair B de A
+3: ZER A 6 4     ; Se A == 0, vai para linha 6 (não primo)
+4: SUB B 5       ; Decrementa B e testa
+5: ZER B 7 2     ; Se B >= A, para, caso contrário, volta a linha 2
+6: ZER C 8 9     ; Se A == 0, C = 0 (não primo), caso contrário C = 1 (primo)

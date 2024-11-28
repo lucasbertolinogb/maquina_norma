@@ -1,0 +1,7 @@
+1: ZER C 2 3      ; Inicializa C
+2: ZER D 3 4      ; Zera D
+3: SUB A 4        ; Decrementa A por B
+4: ADD D 5        ; Incrementa D
+5: ZER A 6 7      ; Se A == 0, C == 0
+6: ZER B 8 9      ; Se A != 0, C != 0
+7: ZER C 10 11    ; Resultado armazenado em C

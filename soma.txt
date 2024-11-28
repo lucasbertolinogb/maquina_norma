@@ -1,0 +1,7 @@
+1: ZER C 2 3     ; Zera C para uso como auxiliar
+2: SUB B 4       ; Decrementa B até zerar e transfere para C
+3: ADD C 6       ; Copia B para C
+4: ADD A 5       ; Incrementa A com o valor de B
+5: ZER B 7 6     ; Restaura B com o valor de C
+6: SUB C 5       ; Decrementa C até B ser restaurado
+7: ZER C 8 9     ; Garante que C esteja zerado após a soma

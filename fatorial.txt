@@ -1,0 +1,9 @@
+1: ZER C 2 3      ; Inicializa C como 1 (resultado)
+2: ADD C 4        ; C = 1
+3: ZER B 5 6      ; Zera B
+4: ADD A 6        ; Decrementa A
+5: ADD B 7        ; Move A para B
+6: ZER A 8 9      ; Se A == 0, fim do loop
+7: ADD C 10       ; Multiplica C por B
+8: SUB B 4        ; Repete enquanto B > 0
+9: ZER C 11 12    ; Fatorial armazenado em C

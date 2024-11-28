@@ -1,0 +1,7 @@
+1: ZER C 2 3      ; Zera C
+2: ADD A 3        ; Incrementa A
+3: SUB B 4        ; Decrementa B
+4: ZER A 5 6      ; Verifica A < B
+5: ADD C 7        ; Se A < B, incrementa C (verdadeiro)
+6: ZER B 8 9      ; Se A >= B, segue
+7: ZER C 10 11    ; Resultado em C

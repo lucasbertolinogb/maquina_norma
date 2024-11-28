@@ -1,0 +1,10 @@
+1: ZER C 2 3      ; Zera C
+2: ZER D 3 4      ; Zera D
+3: ADD B 4        ; Prepara B
+4: ADD D 5        ; Move B para D
+5: ZER B 6 7      ; Zera B
+6: ZER A 8 9      ; Loop de multiplicação
+7: ADD A 10       ; Incrementa A
+8: ADD C 11       ; Incrementa C com o valor de D
+9: SUB D 6        ; Decrementa D até zerar
+10: ZER C 12 13   ; Resultado final em C
